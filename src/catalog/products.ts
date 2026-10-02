@@ -16,7 +16,9 @@ export type AccessoryId =
   | "monitor-27"
   | "laptop-stand"
   | "keyboard-mouse"
+  | "headphones"
   | "desk-lamp"
+  | "floor-lamp"
   | "monstera"
   | "coffee-machine";
 
@@ -157,12 +159,32 @@ export const ACCESSORIES: readonly Accessory[] = [
     maxQuantity: 1,
   },
   {
+    id: "headphones",
+    code: "phones",
+    name: "Noise-cancelling headphones",
+    shortName: "pair of headphones",
+    blurb: "For calls next to a rooster.",
+    pricePerWeek: 500,
+    kind: "single",
+    maxQuantity: 1,
+  },
+  {
     id: "desk-lamp",
     code: "lamp",
     name: "Smart LED desk lamp",
     shortName: "desk lamp",
     blurb: "Warm light for late calls with Europe.",
     pricePerWeek: 300,
+    kind: "single",
+    maxQuantity: 1,
+  },
+  {
+    id: "floor-lamp",
+    code: "flamp",
+    name: "Gradient floor lamp",
+    shortName: "floor lamp",
+    blurb: "Washes the wall in sunset colours after dark.",
+    pricePerWeek: 500,
     kind: "single",
     maxQuantity: 1,
   },

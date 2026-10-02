@@ -14,7 +14,7 @@ export function MobileBar() {
     <div className="fixed inset-x-0 bottom-0 z-30 border-t border-line bg-surface/90 px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur-md xl:hidden">
       <div className="mx-auto flex max-w-xl items-center justify-between gap-4">
         <p className="leading-tight">
-          <span className="block tabular font-display text-xl font-semibold">
+          <span className="block tabular text-xl font-semibold">
             {formatPrice(weeklyTotal(setup))}
           </span>
           <span className="text-xs text-muted">per week, delivered</span>

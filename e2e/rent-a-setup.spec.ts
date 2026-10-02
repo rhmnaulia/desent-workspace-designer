@@ -14,7 +14,7 @@ test("build a setup and request it", async ({ page }) => {
   await page.getByRole("checkbox", { name: /Potted monstera/ }).check();
 
   await expect(slip(page).getByText("Pro ergonomic chair")).toBeVisible();
-  await expect(slip(page).getByText("× 2")).toBeVisible();
+  await expect(slip(page).getByText("×2")).toBeVisible();
   await expect(page).toHaveURL(/s=std\.pro\.m27x2\.stand\.keys\.lamp\.plant/);
 
   await slip(page).getByRole("link", { name: "Rent this setup" }).click();
@@ -39,7 +39,7 @@ test("build a setup and request it", async ({ page }) => {
 test("a shared link opens the same setup", async ({ page }) => {
   await page.goto("/?s=xl.rattan.m24x3.coffee");
   await expect(slip(page).getByText("Rattan side chair")).toBeVisible();
-  await expect(slip(page).getByText("× 3")).toBeVisible();
+  await expect(slip(page).getByText("×3")).toBeVisible();
 });
 
 test("the whole flow works with a keyboard alone", async ({ page, isMobile }) => {

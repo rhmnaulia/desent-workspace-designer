@@ -73,3 +73,17 @@ export function CoffeeCorner() {
     </g>
   );
 }
+
+/**
+ * A slim gradient light bar (the kind that washes a wall in colour). Its
+ * glow lives in the lights layer, so it really shines only after dark.
+ */
+export function FloorLamp() {
+  return (
+    <g>
+      <ellipse cy={2} rx={24} ry={4} fill="var(--shade)" />
+      <rect x={-18} y={-6} width={36} height={6} rx={3} fill="#2f3436" />
+      <rect x={-5} y={-236} width={10} height={232} rx={5} fill="url(#floor-lamp-bar)" />
+    </g>
+  );
+}

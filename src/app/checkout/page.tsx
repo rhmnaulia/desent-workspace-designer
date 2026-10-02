@@ -7,7 +7,9 @@ import { Stage } from "@/components/stage/stage";
 import { ArrowLeftIcon } from "@/components/ui/icons";
 import { baliDate } from "@/checkout/request";
 import { SETUP_PARAM, decodeSetup, encodeSetup } from "@/setup/codec";
-import { formatPrice, lineItems } from "@/setup/pricing";
+import { formatPrice, lineItems, weeklyTotal } from "@/setup/pricing";
+import { CheckoutStatusProvider, StampWhenSent } from "@/components/checkout/checkout-status";
+import { SlipBarcode, SlipHeader, SlipLines, SlipPaper } from "@/components/sheet/slip";
 
 export const metadata: Metadata = {
   title: "Review your setup",
@@ -38,9 +40,7 @@ export default async function CheckoutPage({ searchParams }: PageProps<"/checkou
           <ArrowLeftIcon width={18} height={18} />
           Keep designing
         </Link>
-        <h1 className="mt-2 font-display text-4xl font-semibold tracking-tight sm:text-5xl">
-          Review your setup
-        </h1>
+        <h1 className="mt-2 font-display text-4xl tracking-tight sm:text-5xl">Review your setup</h1>
         <p className="mt-3 max-w-2xl text-lg text-pretty text-muted">
           Nothing is charged today. Send the request and we&rsquo;ll confirm stock and a delivery
           slot with you first.
@@ -59,35 +59,37 @@ export default async function CheckoutPage({ searchParams }: PageProps<"/checkou
           </p>
         )}
 
-        <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_440px] lg:items-start">
-          <section aria-labelledby="setup-heading" className="grid gap-5">
-            <h2 id="setup-heading" className="sr-only">
-              Your setup
-            </h2>
-            <div className="overflow-hidden rounded-[28px] border border-line bg-[var(--wall)]">
-              <Stage setup={setup} className="block aspect-[5/3] w-full" />
-            </div>
-            <ul className="divide-y divide-dashed divide-line rounded-3xl bg-surface px-5 ring-1 ring-line">
-              {items.map((item) => (
-                <li key={item.id} className="flex items-baseline gap-3 py-3">
-                  <span className="min-w-0 flex-1">
-                    {item.name}
-                    {item.quantity > 1 && <span className="text-muted"> × {item.quantity}</span>}
+        <CheckoutStatusProvider>
+          <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_440px] lg:items-start">
+            <section aria-labelledby="setup-heading" className="grid gap-5">
+              <h2 id="setup-heading" className="sr-only">
+                Your setup
+              </h2>
+              <div className="overflow-hidden rounded-[28px] border border-line bg-surface">
+                <Stage setup={setup} className="block aspect-[5/3] w-full" />
+              </div>
+              <SlipPaper>
+                <SlipHeader code={code} aside={<span>Per week</span>} />
+                <SlipLines items={items} />
+                <div className="mt-3 flex items-end justify-between">
+                  <span className="text-sm text-muted">Total / week</span>
+                  <span className="tabular text-xl font-semibold">
+                    {formatPrice(weeklyTotal(setup))}
                   </span>
-                  <span className="tabular">{formatPrice(item.weekly)}</span>
-                  <span className="text-sm text-muted">/ wk</span>
-                </li>
-              ))}
-            </ul>
-          </section>
+                </div>
+                <SlipBarcode code={code} />
+                <StampWhenSent />
+              </SlipPaper>
+            </section>
 
-          <RequestForm
-            setup={setup}
-            setupCode={code}
-            earliestDate={baliDate(new Date(), LEAD_DAYS)}
-            suggestedDate={baliDate(new Date(), LEAD_DAYS + 1)}
-          />
-        </div>
+            <RequestForm
+              setup={setup}
+              setupCode={code}
+              earliestDate={baliDate(new Date(), LEAD_DAYS)}
+              suggestedDate={baliDate(new Date(), LEAD_DAYS + 1)}
+            />
+          </div>
+        </CheckoutStatusProvider>
       </main>
       <SiteFooter />
     </>

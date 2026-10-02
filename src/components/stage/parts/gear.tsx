@@ -131,3 +131,22 @@ export function LampGlow() {
     </g>
   );
 }
+
+/** Over-ear headphones resting on a small stand. */
+export function Headphones() {
+  return (
+    <g>
+      <rect x={-12} y={-4} width={24} height={4} rx={2} fill="#3a3f42" />
+      <rect x={-2} y={-44} width={4} height={40} fill="#6d6a64" />
+      <path
+        d="M-15-30a15 18 0 0 1 30 0"
+        fill="none"
+        stroke="#2b3033"
+        strokeWidth={5}
+        strokeLinecap="round"
+      />
+      <rect x={-20} y={-34} width={10} height={16} rx={4} fill="#2b3033" />
+      <rect x={10} y={-34} width={10} height={16} rx={4} fill="#2b3033" />
+    </g>
+  );
+}

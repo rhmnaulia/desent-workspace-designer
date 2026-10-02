@@ -9,8 +9,8 @@ export function SiteHeader() {
         className="group flex items-baseline gap-2"
         aria-label="monis.rent workspace designer, home"
       >
-        <span className="font-display text-xl font-bold tracking-tight">
-          monis<span className="text-leaf">.</span>rent
+        <span className="font-display text-xl tracking-tight">
+          monis<span className="text-lagoon">.</span>rent
         </span>
         <span className="hidden text-sm text-muted sm:inline">Workspace designer</span>
       </Link>

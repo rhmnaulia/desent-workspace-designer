@@ -4,7 +4,10 @@ import { applyTheme, readPreference, setPreference, themeScript } from "./theme"
 const mockSystemDark = (dark: boolean) =>
   vi.spyOn(window, "matchMedia").mockImplementation(
     (query) =>
-      ({ matches: query.includes("dark") && dark, addEventListener: () => {} }) as unknown as MediaQueryList,
+      ({
+        matches: query.includes("dark") && dark,
+        addEventListener: () => {},
+      }) as unknown as MediaQueryList,
   );
 
 describe("theme", () => {

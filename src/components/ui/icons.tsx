@@ -70,3 +70,15 @@ export const SystemIcon = (props: SVGProps<SVGSVGElement>) => (
     <path d="M7.5 16.5h5M10 13.5v3" />
   </svg>
 );
+
+export const SunriseIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg {...base} {...props}>
+    <path d="M5.5 14a4.5 4.5 0 0 1 9 0M2.5 14h15M10 3.5v4M7.8 5.6L10 3.5l2.2 2.1M4.2 9.2l1.2 1.2M15.8 9.2l-1.2 1.2M5 17h10" />
+  </svg>
+);
+
+export const SunsetIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg {...base} {...props}>
+    <path d="M5.5 14a4.5 4.5 0 0 1 9 0M2.5 14h15M10 3.5v4M7.8 5.4L10 7.5l2.2-2.1M4.2 9.2l1.2 1.2M15.8 9.2l-1.2 1.2M5 17h10" />
+  </svg>
+);

@@ -1,0 +1,125 @@
+/*
+ * Lighting for the illustrated room (`.stage`).
+ *
+ * The room follows the real time of day in Bali: `<html data-bali-time>` is
+ * set before first paint (src/scene/bali-time.ts). Someone previewing another
+ * time sets `data-time` on the stage itself, which wins.
+ *
+ * Each phase only changes the sky, the sun/moon, the shaft of window light,
+ * a tint laid over the whole room (`--dim`, multiplied) and the strength of
+ * the lights layer (lamps and screens, screen-blended on top). Furniture keeps
+ * its own colours, so adding a product never means drawing four versions.
+ */
+
+.stage {
+  /* Room (fixed) */
+  --wall: #e6e9e3;
+  --wall-shade: #d6dbd3;
+  --floor: #c49a6c;
+  --floor-line: #b0855a;
+  --frame: #f8f9f6;
+  --rug: #cdbf9b;
+  --decor: #a8814f;
+  --decor-fill: #e3d4b4;
+  --shade: rgb(30 40 35 / 0.16);
+  --glow: rgb(255 200 120 / 0.45);
+  --screen: #1d2a2e;
+  --screen-glow: rgb(150 220 210 / 0.1);
+
+  /* Day (default) */
+  --sky-top: #9fd3e6;
+  --sky-bottom: #e4f4ef;
+  --sun: #fff3c4;
+  --sun-y: 0px;
+  --sun-opacity: 1;
+  --moon-opacity: 0;
+  --stars-opacity: 0;
+  --palm: #6f9c80;
+  --shaft-opacity: 0.5;
+  --dim: rgb(255 255 255 / 0);
+  --lights: 0;
+}
+
+:where([data-bali-time="morning"]) .stage:not([data-time]),
+.stage[data-time="morning"] {
+  --sky-top: #f6c9a6;
+  --sky-bottom: #fdebd3;
+  --sun: #ffe1a1;
+  --sun-y: 46px;
+  --palm: #7a9a7c;
+  --shaft-opacity: 0.65;
+  --dim: rgb(255 214 170 / 0.12);
+  --lights: 0.15;
+}
+
+:where([data-bali-time="sunset"]) .stage:not([data-time]),
+.stage[data-time="sunset"] {
+  --sky-top: #e8775a;
+  --sky-bottom: #f6c26b;
+  --sun: #ffb35c;
+  --sun-y: 64px;
+  --palm: #3f4a45;
+  --shaft-opacity: 0.55;
+  --dim: rgb(255 140 80 / 0.18);
+  --lights: 0.55;
+}
+
+:where([data-bali-time="night"]) .stage:not([data-time]),
+.stage[data-time="night"] {
+  --sky-top: #0b1630;
+  --sky-bottom: #22345a;
+  --sun: #f1ecd8;
+  --sun-opacity: 0;
+  --moon-opacity: 1;
+  --stars-opacity: 1;
+  --palm: #08101e;
+  --shaft-opacity: 0;
+  --dim: rgb(26 36 82 / 0.72);
+  --lights: 1;
+}
+
+/* Changing the time of day fades the light instead of switching it. */
+.stage :is(rect, path, circle, ellipse) {
+  transition:
+    fill 900ms ease,
+    opacity 900ms ease;
+}
+
+.stage stop {
+  transition: stop-color 900ms ease;
+}
+
+.stage .sun {
+  transform: translateY(var(--sun-y));
+  opacity: var(--sun-opacity);
+  transition:
+    transform 900ms var(--ease-motor),
+    opacity 900ms ease;
+}
+
+.stage .moon {
+  opacity: var(--moon-opacity);
+  transition: opacity 900ms ease;
+}
+
+.stage .stars {
+  opacity: var(--stars-opacity);
+  transition: opacity 900ms ease;
+}
+
+.stage .shaft {
+  opacity: var(--shaft-opacity);
+}
+
+.stage .dim {
+  fill: var(--dim);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+.stage .lights {
+  opacity: var(--lights);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  transition: opacity 900ms ease;
+}

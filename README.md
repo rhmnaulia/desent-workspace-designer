@@ -11,8 +11,9 @@ Build a desk setup for your time in Bali, watch it come together in a little sun
 The brief's persona has just landed, has a week, and doesn't want to read a spec sheet. So the app is built around three ideas:
 
 1. **Show, don't list.** The preview is the main thing on screen. Every choice lands in it right away: the desk swaps, monitors drop onto the desk and shuffle over to make room, the lamp switches on, a standing desk rises when you press _Stand_.
-2. **The bill builds itself.** Next to the room sits a rental slip that fills in line by line, so the price is never a surprise at checkout.
-3. **Remove decisions.** Three starter setups (based on monis.rent's real bundles) get you a sensible office in one tap. The desk you pick decides how many screens fit, and the UI says so ("Desk is full") instead of silently refusing.
+2. **The bill builds itself.** Next to the room sits a paper rental slip that prints a new line for every change, with a barcode of your share code. It gets stamped when you send the request.
+3. **Lit by Bali time.** The room follows the real time of day in Bali: morning light, midday, sunset, then night with the lamps and screens glowing. You can preview any hour.
+4. **Remove decisions.** Three starter setups (based on monis.rent's real bundles) get you a sensible office in one tap. The desk you pick decides how many screens fit, and the UI says so ("Desk is full") instead of silently refusing.
 
 Small things that came out of thinking as the user:
 
@@ -22,15 +23,15 @@ Small things that came out of thinking as the user:
 
 ## Tech choices
 
-| | Choice | Why |
-| --- | --- | --- |
-| Framework | Next.js 16 (App Router), TypeScript strict | Required by the brief. The designer page is fully static; checkout is server-rendered from the URL. |
-| Styling | Tailwind CSS v4 with design tokens in `globals.css` | Required. Two themes (light "rice paper", dark "Canggu night") from the same tokens. |
-| Illustrations | Hand-built SVG components | One consistent style, no image files to load, recolour for dark mode, and every part can move on its own. Product thumbnails reuse the same parts, so what you tap is what lands in the room. |
-| State | `useState` + a pure reducer, shared through context | The state is small. Pure functions (`reducer`, `rules`, `pricing`, `codec`) hold the logic and are unit tested without React. |
-| Fonts | Atkinson Hyperlegible for body text, plus a self-hosted, trimmed Bricolage Grotesque for headings | Both use `display: optional` with metric-matched fallbacks, so there is no layout shift and no late repaint. See `src/app/fonts/README.md`. |
-| Motion | CSS only: transitions plus a spring curve written with `linear()` | I started with Motion and swapped it out: everything here animates `transform`/`opacity`, which CSS does on the compositor, and dropping the library saved ~40 kB of JavaScript. |
-| Testing | Vitest + Testing Library, Playwright + axe | Logic and interaction tests; end-to-end flows on desktop and phone; zero axe violations in both themes. |
+|               | Choice                                                                                            | Why                                                                                                                                                                                           |
+| ------------- | ------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Framework     | Next.js 16 (App Router), TypeScript strict                                                        | Required by the brief. The designer page is fully static; checkout is server-rendered from the URL.                                                                                           |
+| Styling       | Tailwind CSS v4 with design tokens in `globals.css`                                               | Required. Two themes (light "rice paper", dark "Canggu night") from the same tokens.                                                                                                          |
+| Illustrations | Hand-built SVG components                                                                         | One consistent style, no image files to load, recolour for dark mode, and every part can move on its own. Product thumbnails reuse the same parts, so what you tap is what lands in the room. |
+| State         | `useState` + a pure reducer, shared through context                                               | The state is small. Pure functions (`reducer`, `rules`, `pricing`, `codec`) hold the logic and are unit tested without React.                                                                 |
+| Fonts         | Atkinson Hyperlegible for body text, plus a self-hosted, trimmed Bricolage Grotesque for headings | Both use `display: optional` with metric-matched fallbacks, so there is no layout shift and no late repaint. See `src/app/fonts/README.md`.                                                   |
+| Motion        | CSS only: transitions plus a spring curve written with `linear()`                                 | I started with Motion and swapped it out: everything here animates `transform`/`opacity`, which CSS does on the compositor, and dropping the library saved ~40 kB of JavaScript.              |
+| Testing       | Vitest + Testing Library, Playwright + axe                                                        | Logic and interaction tests; end-to-end flows on desktop and phone; zero axe violations in both themes.                                                                                       |
 
 ## Accessibility
 

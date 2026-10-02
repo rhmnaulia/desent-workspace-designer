@@ -47,7 +47,12 @@ export interface DeskLayout {
   laptopX: number;
   lampX: number;
   keyboardX: number;
+  headphonesX: number;
   chairX: number;
+  /** Floor items, in room coordinates. */
+  plantX: number;
+  floorLampX: number;
+  coffeeX: number;
 }
 
 export function layoutDesk(setup: Setup): DeskLayout {
@@ -91,7 +96,12 @@ export function layoutDesk(setup: Setup): DeskLayout {
     laptopX: EDGE + LAPTOP_SPAN / 2,
     lampX: width - LAMP_SPAN / 2 - 4,
     keyboardX: width / 2 - 40,
+    headphonesX: width - LAMP_SPAN - 26,
     // Pulled out a little to the right, so the desk top stays visible.
     chairX: VIEW.width / 2 + 70,
+    // Left of the desk: the plant hugs the desk, the floor lamp stands behind it.
+    plantX: Math.max(left - 64, 56),
+    floorLampX: Math.max(left - (has("monstera") ? 118 : 46), 28),
+    coffeeX: Math.min(left + width + 70, VIEW.width - 52),
   };
 }

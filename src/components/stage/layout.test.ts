@@ -39,4 +39,17 @@ describe("layoutDesk", () => {
     });
     expect(new Set(layout.monitors.map((m) => m.key)).size).toBe(3);
   });
+
+  it("keeps floor items inside the room, even beside the widest desk", () => {
+    const layout = layoutDesk({
+      desk: "standing-desk-xl",
+      chair: "pro-chair",
+      accessories: { "floor-lamp": 1, monstera: 1, "coffee-machine": 1 },
+    });
+    for (const x of [layout.floorLampX, layout.plantX, layout.coffeeX]) {
+      expect(x).toBeGreaterThan(0);
+      expect(x).toBeLessThan(VIEW.width);
+    }
+    expect(layout.floorLampX).toBeLessThan(layout.plantX);
+  });
 });

@@ -1,9 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { Atkinson_Hyperlegible } from "next/font/google";
-import localFont from "next/font/local";
+import { Atkinson_Hyperlegible, Atkinson_Hyperlegible_Mono, Young_Serif } from "next/font/google";
 import { site } from "@/site";
+import { sceneTimeScript } from "@/scene/bali-time";
 import { themeScript } from "@/theme/theme";
 import "./globals.css";
+import "./scene.css";
 
 // Atkinson Hyperlegible was designed by the Braille Institute for low-vision
 // readers: distinct letterforms (Il1, O0) make it calm and clear for UI text.
@@ -18,13 +19,23 @@ const body = Atkinson_Hyperlegible({
   display: "optional",
 });
 
-// A warm, slightly quirky grotesque for headings and numbers. Self-hosted and
-// trimmed to what we use (see fonts/README.md), since it loads before first paint.
-const display = localFont({
-  src: "./fonts/bricolage-display.woff2",
-  weight: "400 700",
-  variable: "--font-bricolage",
+// Headings: a soft, slightly old-fashioned serif. Warm without being cute.
+const display = Young_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-young-serif",
   display: "optional",
+});
+
+// Numbers and the rental slip, set like a printed receipt. Same family as
+// the body text, so it reads as one voice. Below the fold on phones, so it
+// isn't preloaded and stays off the critical path.
+const mono = Atkinson_Hyperlegible_Mono({
+  subsets: ["latin"],
+  weight: ["400", "600"],
+  variable: "--font-atkinson-mono",
+  display: "optional",
+  preload: false,
 });
 
 export const metadata: Metadata = {
@@ -47,8 +58,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f5f0e6" },
-    { media: "(prefers-color-scheme: dark)", color: "#1a1916" },
+    { media: "(prefers-color-scheme: light)", color: "#edf0ec" },
+    { media: "(prefers-color-scheme: dark)", color: "#0e1615" },
   ],
 };
 
@@ -58,11 +69,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       data-theme="light"
-      className={`${body.variable} ${display.variable}`}
+      className={`${body.variable} ${display.variable} ${mono.variable}`}
       suppressHydrationWarning
     >
       <head>
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        {/* Theme and Bali time of day, applied before first paint */}
+        <script dangerouslySetInnerHTML={{ __html: themeScript + sceneTimeScript }} />
       </head>
       <body className="min-h-dvh">
         <a

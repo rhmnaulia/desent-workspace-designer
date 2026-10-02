@@ -21,6 +21,15 @@ export function StageDefs() {
         <stop offset="0" stopColor="var(--glow)" />
         <stop offset="1" stopColor="var(--glow)" stopOpacity="0" />
       </radialGradient>
+      <linearGradient id="floor-lamp-bar" x1="0" x2="0" y1="0" y2="1">
+        <stop offset="0" stopColor="#f3d9e4" />
+        <stop offset="1" stopColor="#f7e3c4" />
+      </linearGradient>
+      <radialGradient id="floor-lamp-halo">
+        <stop offset="0" stopColor="rgb(255 170 150 / 0.75)" />
+        <stop offset="0.5" stopColor="rgb(240 140 170 / 0.3)" />
+        <stop offset="1" stopColor="rgb(240 140 170 / 0)" />
+      </radialGradient>
       <pattern id="weave" width="8" height="8" patternUnits="userSpaceOnUse">
         <rect width="8" height="8" fill="#d8ac74" />
         <path d="M0 4h8M4 0v8" stroke="#9a6a35" strokeWidth="1" opacity="0.55" />

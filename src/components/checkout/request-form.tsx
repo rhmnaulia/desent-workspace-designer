@@ -13,6 +13,7 @@ import {
 import { RENTAL_TERMS, formatPrice, quote, type RentalTerm } from "@/setup/pricing";
 import type { Setup } from "@/setup/types";
 import { buttonStyles } from "../ui/button";
+import { useCheckoutStatus } from "./checkout-status";
 import { ArrowRightIcon } from "../ui/icons";
 
 interface RequestFormProps {
@@ -41,6 +42,7 @@ export function RequestForm({ setup, setupCode, earliestDate, suggestedDate }: R
   const [errors, setErrors] = useState<RequestErrors>({});
   const [status, setStatus] = useState<"editing" | "sending" | "sent">("editing");
   const form = useRef<HTMLFormElement>(null);
+  const { markSent } = useCheckoutStatus();
 
   const term = RENTAL_TERMS.find((t) => t.id === values.term)!;
   const price = quote(setup, term);
@@ -64,6 +66,7 @@ export function RequestForm({ setup, setupCode, earliestDate, suggestedDate }: R
     setStatus("sending");
     await submitRequest();
     setStatus("sent");
+    markSent();
   };
 
   if (status === "sent") {
@@ -78,7 +81,7 @@ export function RequestForm({ setup, setupCode, earliestDate, suggestedDate }: R
       aria-labelledby="request-heading"
       className="grid gap-6 rounded-3xl bg-surface p-5 ring-1 ring-line sm:p-6"
     >
-      <h2 id="request-heading" className="font-display text-2xl font-semibold tracking-tight">
+      <h2 id="request-heading" className="font-display text-2xl tracking-tight">
         Rent it
       </h2>
 
@@ -90,7 +93,7 @@ export function RequestForm({ setup, setupCode, earliestDate, suggestedDate }: R
             return (
               <label
                 key={option.id}
-                className={`relative flex cursor-pointer flex-col rounded-2xl border p-3 transition-colors duration-150 has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-focus ${checked ? "border-leaf bg-[color-mix(in_oklab,var(--leaf)_8%,var(--surface))]" : "border-line hover:border-ink/40"}`}
+                className={`relative flex cursor-pointer flex-col rounded-2xl border p-3 transition-colors duration-150 has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-focus ${checked ? "border-lagoon bg-[color-mix(in_oklab,var(--lagoon)_8%,var(--surface))]" : "border-line hover:border-ink/40"}`}
               >
                 <input
                   type="radio"
@@ -207,7 +210,7 @@ export function RequestForm({ setup, setupCode, earliestDate, suggestedDate }: R
           <dd className="tabular">{formatPrice(price.gross)}</dd>
         </div>
         {price.savings > 0 && (
-          <div className="flex justify-between text-leaf">
+          <div className="flex justify-between text-lagoon">
             <dt>{term.label} discount</dt>
             <dd className="tabular">−{formatPrice(price.savings)}</dd>
           </div>
@@ -218,9 +221,7 @@ export function RequestForm({ setup, setupCode, earliestDate, suggestedDate }: R
         </div>
         <div className="mt-2 flex items-baseline justify-between">
           <dt className="font-semibold">Total for {term.label}</dt>
-          <dd className="tabular font-display text-3xl font-semibold tracking-tight">
-            {formatPrice(price.total)}
-          </dd>
+          <dd className="tabular text-3xl font-semibold">{formatPrice(price.total)}</dd>
         </div>
       </dl>
 
@@ -238,7 +239,7 @@ export function RequestForm({ setup, setupCode, earliestDate, suggestedDate }: R
 
 const inputStyles =
   "min-h-12 w-full rounded-xl border border-line bg-paper px-4 text-base text-ink transition-colors " +
-  "hover:border-ink/40 focus-visible:border-ink aria-invalid:border-clay";
+  "hover:border-ink/40 focus-visible:border-ink aria-invalid:border-error";
 
 interface FieldProps {
   label: string;
@@ -274,7 +275,7 @@ function Field({ label, name, hint, error, children }: FieldProps) {
         </p>
       )}
       {error && (
-        <p id={`${id}-error`} className="text-sm font-semibold text-clay">
+        <p id={`${id}-error`} className="text-sm font-semibold text-error">
           {error}
         </p>
       )}
@@ -318,7 +319,7 @@ function Confirmation({
         id="sent-heading"
         ref={heading}
         tabIndex={-1}
-        className="font-display text-3xl font-semibold tracking-tight focus:outline-none"
+        className="font-display text-3xl tracking-tight focus:outline-none"
       >
         Request sent, {firstName}.
       </h2>

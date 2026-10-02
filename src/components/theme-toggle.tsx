@@ -1,12 +1,7 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
-import {
-  THEME_EVENT,
-  readPreference,
-  setPreference,
-  type ThemePreference,
-} from "@/theme/theme";
+import { THEME_EVENT, readPreference, setPreference, type ThemePreference } from "@/theme/theme";
 import { MoonIcon, SunIcon, SystemIcon } from "./ui/icons";
 
 const OPTIONS: Array<{ value: ThemePreference; label: string; Icon: typeof SunIcon }> = [

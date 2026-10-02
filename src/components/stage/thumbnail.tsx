@@ -3,8 +3,8 @@ import { getDesk } from "@/catalog/products";
 import type { ReactNode } from "react";
 import { Chair } from "./parts/chairs";
 import { DeskBase, DeskTop } from "./parts/desks";
-import { CoffeeCorner, Monstera } from "./parts/floor-items";
-import { KeyboardAndMouse, LaptopOnStand, Lamp, LampGlow, Monitor } from "./parts/gear";
+import { CoffeeCorner, FloorLamp, Monstera } from "./parts/floor-items";
+import { Headphones, KeyboardAndMouse, LaptopOnStand, Lamp, LampGlow, Monitor } from "./parts/gear";
 
 /**
  * Small pictures for the picker, drawn with the exact same parts as the stage
@@ -40,6 +40,10 @@ function frame(id: ProductId): { viewBox: string; art: ReactNode } {
       return { viewBox: "-60 -104 120 110", art: <LaptopOnStand /> };
     case "keyboard-mouse":
       return { viewBox: "-62 -30 154 36", art: <KeyboardAndMouse /> };
+    case "headphones":
+      return { viewBox: "-30 -52 60 58", art: <Headphones /> };
+    case "floor-lamp":
+      return { viewBox: "-70 -244 140 252", art: <FloorLamp /> };
     case "desk-lamp":
       return {
         viewBox: "-120 -138 170 146",
@@ -60,7 +64,12 @@ function frame(id: ProductId): { viewBox: string; art: ReactNode } {
 export function Thumbnail({ id, className }: { id: ProductId; className?: string }) {
   const { viewBox, art } = frame(id);
   return (
-    <svg viewBox={viewBox} aria-hidden="true" focusable="false" className={className}>
+    <svg
+      viewBox={viewBox}
+      aria-hidden="true"
+      focusable="false"
+      className={`stage ${className ?? ""}`}
+    >
       {art}
     </svg>
   );

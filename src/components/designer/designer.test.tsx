@@ -42,7 +42,7 @@ describe("Designer", () => {
     expect(addBig).toHaveAttribute("aria-disabled", "true");
 
     await user.click(addBig);
-    expect(slip().getByText("× 2")).toBeInTheDocument();
+    expect(slip().getByText("×2")).toBeInTheDocument();
     expect(screen.getByText("The 120 cm desk fits 2 screens.")).toBeInTheDocument();
   });
 
@@ -50,7 +50,7 @@ describe("Designer", () => {
     window.history.replaceState(null, "", "/?s=xl.pro.m27x3");
     render(<Designer />);
     expect(slip().getByText("Dual-motor standing desk XL")).toBeInTheDocument();
-    expect(slip().getByText("× 3")).toBeInTheDocument();
+    expect(slip().getByText("×3")).toBeInTheDocument();
   });
 
   it("moves between steps with the arrow keys", async () => {
@@ -73,5 +73,14 @@ describe("Designer", () => {
       "true",
     );
     expect(preview()).toHaveAccessibleName(/three|two 27-inch monitors/);
+  });
+});
+
+describe("Rental slip total", () => {
+  it("lands on the exact amount, cents included", () => {
+    window.history.replaceState(null, "", "/");
+    render(<Designer />);
+    // The Essentials: $4 + $5 + $1.50 + $4
+    expect(slip().getByText("$14.50", { selector: '[aria-hidden="true"]' })).toBeInTheDocument();
   });
 });

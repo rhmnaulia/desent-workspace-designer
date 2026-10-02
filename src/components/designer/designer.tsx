@@ -36,7 +36,7 @@ function DesignerLayout() {
           <StarterSetups />
           <Steps />
         </div>
-        <div className="md:[grid-area:slip] xl:sticky xl:top-6 xl:self-start">
+        <div className="min-w-0 md:[grid-area:slip] xl:sticky xl:top-6 xl:self-start">
           <RentalSlip />
         </div>
       </div>

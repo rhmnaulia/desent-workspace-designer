@@ -13,7 +13,7 @@ export const cardStyles =
 
 /** Applied when the product is part of the setup. */
 export const cardSelectedStyles =
-  "border-leaf bg-[color-mix(in_oklab,var(--leaf)_7%,var(--surface))] hover:border-leaf";
+  "border-lagoon bg-[color-mix(in_oklab,var(--lagoon)_7%,var(--surface))] hover:border-lagoon";
 
 export function CardBody({
   thumbnail,
@@ -78,7 +78,7 @@ export function ChoiceCard({ type, name, value, checked, onChange, children }: C
       {type === "radio" ? (
         <span
           aria-hidden="true"
-          className={`absolute -top-2 -right-2 grid size-6 place-items-center rounded-full bg-leaf text-on-leaf shadow-sm transition-[opacity,transform] duration-200 ease-out-soft ${checked ? "scale-100 opacity-100" : "scale-50 opacity-0"}`}
+          className={`absolute -top-2 -right-2 grid size-6 place-items-center rounded-full bg-lagoon text-on-lagoon shadow-sm transition-[opacity,transform] duration-200 ease-out-soft ${checked ? "scale-100 opacity-100" : "scale-50 opacity-0"}`}
         >
           <CheckIcon width={14} height={14} strokeWidth={2.4} />
         </span>
@@ -86,7 +86,7 @@ export function ChoiceCard({ type, name, value, checked, onChange, children }: C
         // Add-on cards show an explicit "+" so it's obvious they can be added.
         <span
           aria-hidden="true"
-          className={`grid size-8 shrink-0 place-items-center rounded-full border transition-colors duration-150 ${checked ? "border-leaf bg-leaf text-on-leaf" : "border-line text-ink group-hover:border-ink/40"}`}
+          className={`grid size-8 shrink-0 place-items-center rounded-full border transition-colors duration-150 ${checked ? "border-lagoon bg-lagoon text-on-lagoon" : "border-line text-ink group-hover:border-ink/40"}`}
         >
           {checked ? (
             <CheckIcon width={16} height={16} strokeWidth={2.2} />

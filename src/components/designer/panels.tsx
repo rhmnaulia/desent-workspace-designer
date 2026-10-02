@@ -124,7 +124,7 @@ function ScreenMeter({ used, capacity }: { used: number; capacity: number }) {
               i >= capacity
                 ? "border-dashed border-line"
                 : i < used
-                  ? "border-leaf bg-leaf"
+                  ? "border-lagoon bg-lagoon"
                   : "border-ink/40"
             }`}
           />

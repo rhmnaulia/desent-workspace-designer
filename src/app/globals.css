@@ -1,74 +1,44 @@
 @import "tailwindcss";
 
 /*
- * Design tokens. Two themes, warm in both: "rice paper" by day and
- * "Canggu night" after dark. Every text/background pair is WCAG AA or better
- * (body text is AAA).
+ * Design tokens, inspired by a Bali villa: lime-washed walls, lagoon water,
+ * frangipani and volcanic stone. Two themes from the same names; every
+ * text/background pair is WCAG AA or better (body text is AAA).
  *
  * The active theme is the `data-theme` attribute on <html>, set before first
  * paint by the script in `src/theme/theme.ts` (from the saved choice, or the OS).
+ * The illustrated room has its own lighting, driven by Bali time: see scene.css.
  */
 :root {
   color-scheme: light;
-  --paper: #f5f0e6;
-  --surface: #fcfaf5;
-  --ink: #24211c;
-  --muted: #5f574b;
-  --line: #d9cebb;
-  --leaf: #2f5d46;
-  --on-leaf: #ffffff;
-  --clay: #a8481f;
-  --focus: #a8481f;
-  --shadow: 36 33 28;
-
-  /* Stage illustration */
-  --wall: #ede3d1;
-  --wall-shade: #e3d6bf;
-  --floor: #d6bd95;
-  --floor-line: #c7ab80;
-  --sky-top: #f6d6a5;
-  --sky-bottom: #fbe9c9;
-  --sun: #fff6e0;
-  --palm: #a7b49a;
-  --frame: #fcfaf5;
-  --rug: #c9b08a;
-  --decor: #b48a55;
-  --decor-fill: #e5d0ad;
-  --shade: rgb(60 45 25 / 0.14);
-  --glow: rgb(255 199 120 / 0.42);
-  --screen: #1f2a2e;
-  --screen-glow: rgb(156 214 199 / 0.1);
+  --paper: #edf0ec;
+  --surface: #fafbf9;
+  --ink: #1c2522;
+  --muted: #52605a;
+  --line: #c9d2cd;
+  --lagoon: #0e5a60;
+  --on-lagoon: #ffffff;
+  --flower: #e9b23c;
+  --on-flower: #1c2522;
+  --error: #b4232f;
+  --focus: #0e5a60;
+  --shadow: 20 32 30;
 }
 
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --paper: #1a1916;
-  --surface: #24221e;
-  --ink: #ede6d8;
-  --muted: #b0a797;
-  --line: #3d3931;
-  --leaf: #93c9a8;
-  --on-leaf: #0f2219;
-  --clay: #e59266;
-  --focus: #e59266;
+  --paper: #0e1615;
+  --surface: #172220;
+  --ink: #e4ede9;
+  --muted: #9db0a8;
+  --line: #2b3936;
+  --lagoon: #6bc4c6;
+  --on-lagoon: #05201f;
+  --flower: #f2c55e;
+  --on-flower: #1c2522;
+  --error: #f4919a;
+  --focus: #6bc4c6;
   --shadow: 0 0 0;
-
-  --wall: #2b2824;
-  --wall-shade: #26231f;
-  --floor: #3b3229;
-  --floor-line: #332b23;
-  --sky-top: #1b2540;
-  --sky-bottom: #36405f;
-  --sun: #e9e4d3;
-  --palm: #151b26;
-  --frame: #3a3630;
-  --rug: #4a4034;
-  --decor: #7a6142;
-  --decor-fill: #3a332b;
-  --shade: rgb(0 0 0 / 0.3);
-  --glow: rgb(255 190 110 / 0.3);
-  --screen: #10181b;
-  --screen-glow: rgb(156 214 199 / 0.16);
 }
 
 @theme inline {
@@ -77,18 +47,23 @@
   --color-ink: var(--ink);
   --color-muted: var(--muted);
   --color-line: var(--line);
-  --color-leaf: var(--leaf);
-  --color-on-leaf: var(--on-leaf);
-  --color-clay: var(--clay);
+  --color-lagoon: var(--lagoon);
+  --color-on-lagoon: var(--on-lagoon);
+  --color-flower: var(--flower);
+  --color-on-flower: var(--on-flower);
+  --color-error: var(--error);
   --color-focus: var(--focus);
   --font-sans: var(--font-atkinson), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-bricolage), var(--font-atkinson), ui-sans-serif, sans-serif;
+  --font-display: var(--font-young-serif), Georgia, serif;
+  --font-mono: var(--font-atkinson-mono), ui-monospace, monospace;
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @layer base {
   html {
     -webkit-tap-highlight-color: transparent;
+    /* The heading serif has one weight; never let the browser fake a bold. */
+    font-synthesis-weight: none;
   }
 
   /* Phones pin the preview to the top. Keep focused and scrolled-to elements
@@ -114,22 +89,25 @@
   }
 
   ::selection {
-    background: color-mix(in oklab, var(--leaf) 25%, transparent);
+    background: color-mix(in oklab, var(--lagoon) 25%, transparent);
   }
 }
 
-/* Prices and counts: the display face has calmer figures than the body face's slashed zero. */
+/* Prices and counts set like a printed receipt: monospaced, so columns line up and totals don't jiggle as they count. */
 @utility tabular {
-  font-family: var(--font-bricolage), ui-sans-serif, sans-serif;
+  font-family: var(--font-atkinson-mono), ui-monospace, monospace;
   font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
 }
 
-/* The rental slip's torn-paper top edge. Pure CSS, no image request. */
+/* The rental slip's torn-off edges, top and bottom. Pure CSS, no image request. */
 @utility perforated {
   --tooth: 10px;
   mask:
     radial-gradient(circle at 50% 0, transparent 4px, #000 4.5px) top / var(--tooth) 8px repeat-x,
-    linear-gradient(#000, #000) 0 8px / 100% calc(100% - 8px) no-repeat;
+    linear-gradient(#000, #000) 0 8px / 100% calc(100% - 16px) no-repeat,
+    radial-gradient(circle at 50% 100%, transparent 4px, #000 4.5px) bottom / var(--tooth) 8px
+      repeat-x;
 }
 
 /*
@@ -167,13 +145,6 @@
   }
 }
 
-@keyframes slide-in {
-  from {
-    opacity: 0;
-    transform: translateX(-8px);
-  }
-}
-
 @keyframes rise-in {
   from {
     opacity: 0;
@@ -205,8 +176,41 @@
   animation: fade-in 400ms ease-out 250ms both;
 }
 
-.slide-in {
-  animation: slide-in 220ms var(--ease-soft) both;
+/* A new line on the slip prints top to bottom, like a receipt printer. */
+@keyframes print-in {
+  from {
+    clip-path: inset(0 0 100% 0);
+    transform: translateY(-3px);
+  }
+}
+
+.print-in {
+  animation: print-in 320ms steps(6, end) both;
+}
+
+/* The rubber stamp: overshoots, lands at an angle, settles. */
+@keyframes stamp {
+  0% {
+    opacity: 0;
+    transform: scale(1.8) rotate(-4deg);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(0.94) rotate(-9deg);
+  }
+  100% {
+    opacity: 0.9;
+    transform: scale(1) rotate(-8deg);
+  }
+}
+
+.stamp {
+  animation: stamp 420ms var(--ease-soft) 150ms both;
+  mix-blend-mode: multiply;
+}
+
+:root[data-theme="dark"] .stamp {
+  mix-blend-mode: normal;
 }
 
 .rise-in {
