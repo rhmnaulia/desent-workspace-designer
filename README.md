@@ -66,11 +66,3 @@ src/
 ```
 
 To add a product: add it to `src/catalog/products.ts`, then draw it in `src/components/stage/parts/`.
-
-## What I'd do with more time
-
-- **Real inventory and availability**, so a desk that's out of stock in Ubud next Tuesday says so before checkout.
-- **A real request backend** (a server action writing to the ops team's tool), then a deposit with Stripe.
-- **Drag to arrange** items on the desk, and a top-down view for people who care where the plant goes.
-- **Product photos** in a details sheet, so people can see the real chair before they commit.
-- **i18n and IDR pricing** for local startups.
