@@ -57,7 +57,8 @@ test("the whole flow works with a keyboard alone", async ({ page, isMobile }) =>
   // Into the panel: past a card's "More about" button to the chair radio group.
   for (let i = 0; i < 4; i++) {
     await page.keyboard.press("Tab");
-    if (await page.evaluate(() => (document.activeElement as HTMLInputElement)?.type === "radio")) break;
+    if (await page.evaluate(() => (document.activeElement as HTMLInputElement)?.type === "radio"))
+      break;
   }
   await page.keyboard.press("ArrowDown");
   await expect(slip(page).getByText("Pro ergonomic chair")).toBeVisible();
@@ -101,4 +102,25 @@ test("theme choice overrides the OS and survives a reload", async ({ page }) => 
 
   await page.getByRole("radio", { name: "Match system" }).check();
   await expect(html).toHaveAttribute("data-theme", "light");
+});
+
+test("product details open in a sheet and add to the setup", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("tab", { name: /Gear/ }).click();
+  const trigger = page.getByRole("button", { name: "More about the Smart LED desk lamp" });
+  await trigger.click();
+
+  const sheet = page.getByRole("dialog", { name: "Smart LED desk lamp" });
+  await expect(sheet).toBeVisible();
+  await expect(sheet.getByRole("img", { name: /Photo of the Smart LED desk lamp/ })).toBeVisible();
+  await expect(sheet.getByRole("button", { name: "Close" })).toBeFocused();
+
+  await sheet.getByRole("button", { name: "Add to my setup" }).click();
+  await expect(sheet).toBeHidden();
+  await expect(slip(page).getByText("Smart LED desk lamp")).toBeVisible();
+
+  await trigger.click();
+  await page.keyboard.press("Escape");
+  await expect(page.getByRole("dialog")).toBeHidden();
+  await expect(trigger).toBeFocused();
 });
