@@ -54,7 +54,11 @@ test("the whole flow works with a keyboard alone", async ({ page, isMobile }) =>
   await page.getByRole("tab", { name: /Desk/ }).focus();
   await page.keyboard.press("ArrowRight");
   await expect(chairTab).toBeFocused();
-  await page.keyboard.press("Tab");
+  // Into the panel: past a card's "More about" button to the chair radio group.
+  for (let i = 0; i < 4; i++) {
+    await page.keyboard.press("Tab");
+    if (await page.evaluate(() => (document.activeElement as HTMLInputElement)?.type === "radio")) break;
+  }
   await page.keyboard.press("ArrowDown");
   await expect(slip(page).getByText("Pro ergonomic chair")).toBeVisible();
 });
