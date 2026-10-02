@@ -88,6 +88,21 @@
     border-radius: 6px;
   }
 
+  /* iOS Safari gives native date inputs an intrinsic min-width and ignores
+     width: 100%, so the field pokes out of its column. Dropping the native
+     appearance makes it size like every other input; iOS still opens its
+     date wheel on tap. The date also sits centred by default: align it left. */
+  input[type="date"] {
+    -webkit-appearance: none;
+    appearance: none;
+    min-width: 0;
+    display: block;
+  }
+
+  input[type="date"]::-webkit-date-and-time-value {
+    text-align: left;
+  }
+
   ::selection {
     background: color-mix(in oklab, var(--lagoon) 25%, transparent);
   }

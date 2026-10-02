@@ -113,7 +113,7 @@ export function RequestForm({ setup, setupCode, earliestDate, suggestedDate }: R
         </div>
       </fieldset>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Field label="Deliver to" error={errors.area} name="area">
           {(props) => (
             <div className="relative">
@@ -259,7 +259,7 @@ function Field({ label, name, hint, error, children }: FieldProps) {
   const id = `field-${name}`;
   const describedBy = [hint && `${id}-hint`, error && `${id}-error`].filter(Boolean).join(" ");
   return (
-    <div className="grid content-start gap-1.5">
+    <div className="grid min-w-0 content-start gap-1.5">
       <label htmlFor={id} className="font-semibold">
         {label}
       </label>
