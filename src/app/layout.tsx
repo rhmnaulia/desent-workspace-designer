@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import { Atkinson_Hyperlegible, Bricolage_Grotesque } from "next/font/google";
+import { Atkinson_Hyperlegible } from "next/font/google";
+import localFont from "next/font/local";
 import { site } from "@/site";
 import { themeScript } from "@/theme/theme";
 import "./globals.css";
@@ -17,9 +18,11 @@ const body = Atkinson_Hyperlegible({
   display: "optional",
 });
 
-// A warm, slightly quirky grotesque for headings and numbers.
-const display = Bricolage_Grotesque({
-  subsets: ["latin"],
+// A warm, slightly quirky grotesque for headings and numbers. Self-hosted and
+// trimmed to what we use (see fonts/README.md), since it loads before first paint.
+const display = localFont({
+  src: "./fonts/bricolage-display.woff2",
+  weight: "400 700",
   variable: "--font-bricolage",
   display: "optional",
 });

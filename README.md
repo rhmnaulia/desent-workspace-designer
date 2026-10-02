@@ -2,7 +2,7 @@
 
 Build a desk setup for your time in Bali, watch it come together in a little sunlit room, then rent it.
 
-**Live:** _added after deploy_ · Built for the [Desent](https://www.desent.io) coding challenge.
+**Live:** [bali-workspace-designer.vercel.app](https://bali-workspace-designer.vercel.app) · Built for the [Desent](https://www.desent.io) coding challenge.
 
 ![A sunlit Bali room with a standing desk, three monitors, an ergonomic chair, a lamp, a monstera and a coffee corner](src/app/opengraph-image.png)
 
