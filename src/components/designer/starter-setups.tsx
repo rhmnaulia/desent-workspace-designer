@@ -26,8 +26,8 @@ export function StarterSetups() {
                 onClick={() => dispatch({ type: "replace", setup: preset.setup })}
                 className={`min-h-11 rounded-full border px-4 text-sm font-semibold transition-[transform,border-color,background-color] duration-150 active:scale-[0.97] ${active ? "border-lagoon bg-[color-mix(in_oklab,var(--lagoon)_10%,var(--surface))]" : "border-line bg-surface hover:border-ink/40"}`}
               >
-                {preset.name}
-                <span className="ml-2 tabular font-normal text-muted">
+                {preset.name}{" "}
+                <span className="ml-1 tabular font-normal text-muted">
                   {formatPrice(weeklyTotal(preset.setup))}/wk
                 </span>
               </button>

@@ -53,6 +53,7 @@ export interface DeskLayout {
   plantX: number;
   floorLampX: number;
   coffeeX: number;
+  beanBagX: number;
 }
 
 export function layoutDesk(setup: Setup): DeskLayout {
@@ -103,5 +104,8 @@ export function layoutDesk(setup: Setup): DeskLayout {
     plantX: Math.max(left - 64, 56),
     floorLampX: Math.max(left - (has("monstera") ? 118 : 46), 28),
     coffeeX: Math.min(left + width + 70, VIEW.width - 52),
+    // In the foreground on the open floor right of the chair, clear of the
+    // stage's corner controls and the plant.
+    beanBagX: Math.min(VIEW.width / 2 + 230, VIEW.width - 70),
   };
 }

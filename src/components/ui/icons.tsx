@@ -82,3 +82,15 @@ export const SunsetIcon = (props: SVGProps<SVGSVGElement>) => (
     <path d="M5.5 14a4.5 4.5 0 0 1 9 0M2.5 14h15M10 3.5v4M7.8 5.4L10 7.5l2.2-2.1M4.2 9.2l1.2 1.2M15.8 9.2l-1.2 1.2M5 17h10" />
   </svg>
 );
+
+export const CloseIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg {...base} {...props}>
+    <path d="M5 5l10 10M15 5L5 15" />
+  </svg>
+);
+
+export const ExpandIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg {...base} {...props}>
+    <path d="M11.5 3.5h5v5M8.5 16.5h-5v-5M16.5 3.5l-5.5 5.5M3.5 16.5L9 11" />
+  </svg>
+);

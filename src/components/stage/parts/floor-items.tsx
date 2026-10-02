@@ -87,3 +87,29 @@ export function FloorLamp() {
     </g>
   );
 }
+
+/** A slouchy woven bean bag in the foreground: the relax corner. */
+export function BeanBag() {
+  return (
+    <g>
+      <ellipse cy={3} rx={62} ry={7} fill="var(--shade)" />
+      <path d="M-58 0c-8-30 6-58 30-66 16-6 34-6 48 2 26 12 36 40 32 64z" fill="#3f7f83" />
+      <path
+        d="M-30-40c12-10 34-12 50-4"
+        fill="none"
+        stroke="#2f6467"
+        strokeWidth={3}
+        strokeLinecap="round"
+      />
+      <path d="M-52-6c26 6 70 6 98 0" fill="none" stroke="#2f6467" strokeWidth={2} opacity={0.6} />
+      <path
+        d="M-40-52c8-6 18-9 28-9"
+        fill="none"
+        stroke="#6aa3a5"
+        strokeWidth={4}
+        strokeLinecap="round"
+        opacity={0.7}
+      />
+    </g>
+  );
+}

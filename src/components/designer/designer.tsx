@@ -4,6 +4,7 @@ import { SetupProvider, useSetup } from "@/setup/context";
 import { MobileBar } from "../sheet/mobile-bar";
 import { RentalSlip } from "../sheet/rental-slip";
 import { LiveRegion } from "../ui/live-region";
+import { ProductDetailsProvider } from "./product-details";
 import { StagePanel } from "./stage-panel";
 import { StarterSetups } from "./starter-setups";
 import { Steps } from "./steps";
@@ -18,7 +19,9 @@ import { Steps } from "./steps";
 export function Designer() {
   return (
     <SetupProvider>
-      <DesignerLayout />
+      <ProductDetailsProvider>
+        <DesignerLayout />
+      </ProductDetailsProvider>
     </SetupProvider>
   );
 }

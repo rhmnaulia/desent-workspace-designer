@@ -3,7 +3,7 @@ import { getDesk } from "@/catalog/products";
 import type { ReactNode } from "react";
 import { Chair } from "./parts/chairs";
 import { DeskBase, DeskTop } from "./parts/desks";
-import { CoffeeCorner, FloorLamp, Monstera } from "./parts/floor-items";
+import { BeanBag, CoffeeCorner, FloorLamp, Monstera } from "./parts/floor-items";
 import { Headphones, KeyboardAndMouse, LaptopOnStand, Lamp, LampGlow, Monitor } from "./parts/gear";
 
 /**
@@ -56,6 +56,8 @@ function frame(id: ProductId): { viewBox: string; art: ReactNode } {
       };
     case "monstera":
       return { viewBox: "-80 -196 160 204", art: <Monstera /> };
+    case "bean-bag":
+      return { viewBox: "-70 -76 140 86", art: <BeanBag /> };
     case "coffee-machine":
       return { viewBox: "-60 -146 120 154", art: <CoffeeCorner /> };
   }

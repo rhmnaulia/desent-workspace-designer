@@ -7,7 +7,7 @@ import { DESK_TOP_SITTING, FLOOR_Y, STANDING_LIFT, VIEW, layoutDesk } from "./la
 import { Chair } from "./parts/chairs";
 import { StageDefs } from "./parts/defs";
 import { DeskBase, DeskTop } from "./parts/desks";
-import { CoffeeCorner, FloorLamp, Monstera } from "./parts/floor-items";
+import { BeanBag, CoffeeCorner, FloorLamp, Monstera } from "./parts/floor-items";
 import { Headphones, KeyboardAndMouse, LaptopOnStand, Lamp, LampGlow, Monitor } from "./parts/gear";
 import {
   DeskLampLight,
@@ -55,7 +55,9 @@ export function Stage({ setup, standing = false, time, className }: StageProps) 
       data-time={time}
       className={`stage ${className ?? ""}`}
     >
-      <title id={titleId}>{`Preview: ${describeSetup(setup, standing)}`}</title>
+      <title id={titleId}>
+        {`Preview: ${describeSetup(setup, standing)}${time ? ` Shown ${TIME_LABEL[time]}.` : ""}`}
+      </title>
       <StageDefs />
       <Room />
 
@@ -120,6 +122,13 @@ export function Stage({ setup, standing = false, time, className }: StageProps) 
         </Placed>
       )}
 
+      {/* Foreground, so it's drawn last */}
+      {has("bean-bag") && (
+        <Placed x={layout.beanBagX} y={FLOOR_Y + 28}>
+          <BeanBag />
+        </Placed>
+      )}
+
       {/* Time-of-day tint over the whole room, then the lights that cut through it */}
       <rect className="dim" y={VIEW.top} width={VIEW.width} height={VIEW.height - VIEW.top} />
       <g className="lights" aria-hidden="true">
@@ -150,6 +159,13 @@ export function Stage({ setup, standing = false, time, className }: StageProps) 
     </svg>
   );
 }
+
+const TIME_LABEL: Record<TimeOfDay, string> = {
+  morning: "in the morning",
+  day: "at midday",
+  sunset: "at sunset",
+  night: "at night, with the lights on",
+};
 
 const translate = (x: number, y: number) => ({ transform: `translate(${x}px, ${y}px)` });
 

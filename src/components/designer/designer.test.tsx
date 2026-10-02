@@ -84,3 +84,11 @@ describe("Rental slip total", () => {
     expect(slip().getByText("$14.50", { selector: '[aria-hidden="true"]' })).toBeInTheDocument();
   });
 });
+
+describe("Set-up date", () => {
+  it("tells you when it can be set up, a day from today in Bali", () => {
+    window.history.replaceState(null, "", "/");
+    render(<Designer />);
+    expect(slip().getByText(/^Order today, set up by \w{3} \d{1,2} \w{3}$/)).toBeInTheDocument();
+  });
+});

@@ -33,6 +33,11 @@ export function applyTheme(preference: string) {
     preference === "dark" ||
     (preference !== "light" && window.matchMedia("(prefers-color-scheme: dark)").matches);
   document.documentElement.dataset.theme = dark ? "dark" : "light";
+  // Tint the phone's browser bar to match the chosen theme, not just the OS.
+  // Colours are spelled out because this function is inlined into <head>.
+  for (const meta of document.querySelectorAll('meta[name="theme-color"]')) {
+    meta.setAttribute("content", dark ? "#0e1615" : "#edf0ec");
+  }
 }
 
 export function setPreference(preference: ThemePreference) {
@@ -57,5 +62,7 @@ export const themeScript = `(() => {
   const applyTheme = ${applyTheme.toString()};
   const read = () => { try { return localStorage.getItem(${JSON.stringify(THEME_STORAGE_KEY)}) || "system"; } catch { return "system"; } };
   applyTheme(read());
+  // Metadata tags (theme-color) may be parsed after this script: tint them too.
+  document.addEventListener("DOMContentLoaded", () => applyTheme(read()));
   window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => applyTheme(read()));
 })();`;

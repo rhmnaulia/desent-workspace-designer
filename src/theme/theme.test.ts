@@ -26,6 +26,18 @@ describe("theme", () => {
     expect(document.documentElement.dataset.theme).toBe("light");
   });
 
+  it("tints the browser bar to match", () => {
+    mockSystemDark(false);
+    document.head.innerHTML =
+      '<meta name="theme-color" media="(prefers-color-scheme: light)" content="#edf0ec">' +
+      '<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0e1615">';
+    applyTheme("dark");
+    const colors = [...document.querySelectorAll('meta[name="theme-color"]')].map((m) =>
+      m.getAttribute("content"),
+    );
+    expect(colors).toEqual(["#0e1615", "#0e1615"]);
+  });
+
   it("remembers a choice, and forgets it when going back to system", () => {
     mockSystemDark(false);
     setPreference("dark");

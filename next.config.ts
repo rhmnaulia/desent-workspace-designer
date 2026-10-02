@@ -2,6 +2,11 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  images: {
+    // Product photos come straight from monis.rent's image host (the brief allows reusing them).
+    remotePatterns: [new URL("https://strapi.monis.rent/uploads/**")],
+    formats: ["image/avif", "image/webp"],
+  },
   async headers() {
     return [
       {

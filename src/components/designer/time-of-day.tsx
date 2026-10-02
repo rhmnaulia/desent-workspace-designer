@@ -58,7 +58,7 @@ export function TimeOfDayControl({ value, onChange }: TimeOfDayControlProps) {
   );
 
   return (
-    <fieldset className="flex items-center rounded-full bg-surface/85 p-0.5 text-xs font-semibold backdrop-blur-sm sm:p-1">
+    <fieldset className="flex items-center rounded-full bg-paper p-0.5 text-xs font-semibold sm:bg-surface/85 sm:p-1 sm:backdrop-blur-sm">
       <legend className="sr-only">Light in the room</legend>
       {option(
         "now",
@@ -68,7 +68,7 @@ export function TimeOfDayControl({ value, onChange }: TimeOfDayControlProps) {
         <>
           <span className="hidden sm:inline">Now in Bali</span>
           <span className="sm:hidden">Now</span>
-          {clock && <span className="tabular opacity-80">{clock}</span>}
+          {clock && <span className="hidden tabular opacity-80 min-[360px]:inline">{clock}</span>}
         </>,
       )}
       {OPTIONS.map(({ value: time, label, Icon }) =>

@@ -27,6 +27,9 @@ export interface RentalRequest {
 
 export type RequestErrors = Partial<Record<keyof RentalRequest, string>>;
 
+/** Orders need a day to pick and load the van, so the earliest delivery is tomorrow. */
+export const DELIVERY_LEAD_DAYS = 1;
+
 /** Bali runs on WITA (UTC+8). Dates are plain `YYYY-MM-DD` strings in that zone. */
 const BALI_TIME_ZONE = "Asia/Makassar";
 

@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { createContext, use, useId, type ReactNode } from "react";
 import { CheckIcon, PlusIcon } from "../ui/icons";
 
 /**
@@ -14,6 +14,13 @@ export const cardStyles =
 /** Applied when the product is part of the setup. */
 export const cardSelectedStyles =
   "border-lagoon bg-[color-mix(in_oklab,var(--lagoon)_7%,var(--surface))] hover:border-lagoon";
+
+/**
+ * Lets a ChoiceCard's input be named by the product name alone and described
+ * by the rest, so a screen reader says "Oak writing desk, radio button, 1 of 3"
+ * and only then the details, instead of one long run-on label.
+ */
+const CardIds = createContext<{ name: string; details: string } | null>(null);
 
 export function CardBody({
   thumbnail,
@@ -31,20 +38,25 @@ export function CardBody({
   /** Extra controls under the text, e.g. a quantity stepper. */
   children?: ReactNode;
 }) {
+  const ids = use(CardIds);
   return (
     <>
       <span className="grid h-[72px] w-[84px] shrink-0 place-items-center rounded-xl bg-paper p-2">
         {thumbnail}
       </span>
       <span className="min-w-0 flex-1">
-        <span className="block leading-snug font-semibold">{name}</span>
-        <span className="mt-0.5 block text-sm leading-snug text-muted">{blurb}</span>
-        <span className="mt-1.5 flex flex-wrap items-baseline gap-x-2 text-sm">
-          <span>
-            <span className="tabular font-semibold">{price}</span>
-            <span className="text-muted"> / week</span>
+        <span id={ids?.name} className="block leading-snug font-semibold">
+          {name}
+        </span>
+        <span id={ids?.details}>
+          <span className="mt-0.5 block text-sm leading-snug text-muted">{blurb}</span>
+          <span className="mt-1.5 flex flex-wrap items-baseline gap-x-2 text-sm">
+            <span>
+              <span className="tabular font-semibold">{price}</span>
+              <span className="text-muted"> / week</span>
+            </span>
+            {meta && <span className="text-xs text-muted">{meta}</span>}
           </span>
-          {meta && <span className="text-xs text-muted">{meta}</span>}
         </span>
         {children}
       </span>
@@ -62,6 +74,8 @@ interface ChoiceCardProps {
 }
 
 export function ChoiceCard({ type, name, value, checked, onChange, children }: ChoiceCardProps) {
+  const id = useId();
+  const ids = { name: `${id}-name`, details: `${id}-details` };
   return (
     <label
       className={`${cardStyles} cursor-pointer active:scale-[0.99] has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-focus ${checked ? cardSelectedStyles : ""}`}
@@ -72,9 +86,11 @@ export function ChoiceCard({ type, name, value, checked, onChange, children }: C
         value={value}
         checked={checked}
         onChange={onChange}
+        aria-labelledby={ids.name}
+        aria-describedby={ids.details}
         className="absolute inset-0 z-10 m-0 cursor-pointer appearance-none rounded-2xl opacity-0"
       />
-      {children}
+      <CardIds value={ids}>{children}</CardIds>
       {type === "radio" ? (
         <span
           aria-hidden="true"

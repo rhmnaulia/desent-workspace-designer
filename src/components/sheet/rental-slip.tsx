@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
+import { DELIVERY_LEAD_DAYS, baliDate, formatDay } from "@/checkout/request";
 import { SETUP_PARAM, encodeSetup } from "@/setup/codec";
 import { useSetup } from "@/setup/context";
 import { RENTAL_TERMS, formatPrice, lineItems, quote } from "@/setup/pricing";
@@ -11,6 +12,11 @@ import { ArrowRightIcon, CheckIcon, LinkIcon } from "../ui/icons";
 import { useTweenedNumber } from "./use-tweened-number";
 
 const LONGEST_TERM = RENTAL_TERMS.at(-1)!;
+
+// Today's date only exists in the browser (the page is prerendered), so the
+// server renders nothing and the slip fills it in after hydration.
+const noSubscribe = () => () => {};
+const earliestSetupDay = () => formatDay(baliDate(new Date(), DELIVERY_LEAD_DAYS));
 
 /**
  * The running bill, printed on a paper rental slip. It's the "summary" half
@@ -23,6 +29,7 @@ export function RentalSlip() {
   const shown = useTweenedNumber(weekly);
   const longTerm = quote(setup, LONGEST_TERM);
   const code = encodeSetup(setup);
+  const setupDay = useSyncExternalStore(noSubscribe, earliestSetupDay, () => "");
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
@@ -64,6 +71,10 @@ export function RentalSlip() {
         <p className="mt-1 text-right text-xs text-muted">
           {formatPrice(Math.round(longTerm.total / LONGEST_TERM.weeks))}/wk if you rent for{" "}
           {LONGEST_TERM.label}
+        </p>
+        {/* Space reserved before hydration, so the slip doesn't jump when the date appears. */}
+        <p className="mt-3 min-h-5 text-xs font-semibold text-lagoon">
+          {setupDay && `Order today, set up by ${setupDay}`}
         </p>
         <SlipBarcode code={code} />
       </SlipPaper>

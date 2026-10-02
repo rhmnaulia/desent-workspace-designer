@@ -5,7 +5,7 @@ import { RequestForm } from "@/components/checkout/request-form";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { Stage } from "@/components/stage/stage";
 import { ArrowLeftIcon } from "@/components/ui/icons";
-import { baliDate } from "@/checkout/request";
+import { DELIVERY_LEAD_DAYS, baliDate } from "@/checkout/request";
 import { SETUP_PARAM, decodeSetup, encodeSetup } from "@/setup/codec";
 import { formatPrice, lineItems, weeklyTotal } from "@/setup/pricing";
 import { CheckoutStatusProvider, StampWhenSent } from "@/components/checkout/checkout-status";
@@ -14,13 +14,9 @@ import { SlipBarcode, SlipHeader, SlipLines, SlipPaper } from "@/components/shee
 export const metadata: Metadata = {
   title: "Review your setup",
   description: "Check your desk setup, choose how long to rent it and where to deliver it in Bali.",
-  // Every setup has its own URL; none of them should compete with the designer in search.
-  robots: { index: false, follow: true },
+  // Every setup has its own URL; the canonical folds them into one page for search engines.
   alternates: { canonical: "/checkout" },
 };
-
-/** Orders need a day to pick and load the van. */
-const LEAD_DAYS = 1;
 
 export default async function CheckoutPage({ searchParams }: PageProps<"/checkout">) {
   const raw = (await searchParams)[SETUP_PARAM];
@@ -45,7 +41,7 @@ export default async function CheckoutPage({ searchParams }: PageProps<"/checkou
           Nothing is charged today. Send the request and we&rsquo;ll confirm stock and a delivery
           slot with you first.
         </p>
-        {!decoded && (
+        {raw !== undefined && !decoded && (
           <p
             role="note"
             className="mt-4 max-w-2xl rounded-2xl border border-line bg-surface px-4 py-3"
@@ -85,8 +81,8 @@ export default async function CheckoutPage({ searchParams }: PageProps<"/checkou
             <RequestForm
               setup={setup}
               setupCode={code}
-              earliestDate={baliDate(new Date(), LEAD_DAYS)}
-              suggestedDate={baliDate(new Date(), LEAD_DAYS + 1)}
+              earliestDate={baliDate(new Date(), DELIVERY_LEAD_DAYS)}
+              suggestedDate={baliDate(new Date(), DELIVERY_LEAD_DAYS + 1)}
             />
           </div>
         </CheckoutStatusProvider>
