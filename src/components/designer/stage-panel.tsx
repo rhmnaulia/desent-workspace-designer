@@ -19,7 +19,7 @@ export function StagePanel() {
       <Stage
         setup={setup}
         standing={standing}
-        className="block aspect-[5/3] w-full xl:aspect-[10/7]"
+        className="block aspect-[5/3] w-full md:aspect-[4/3] xl:aspect-[10/7]"
       />
 
       <p className="pointer-events-none absolute top-3 left-3 rounded-full bg-surface/85 px-3 py-1 text-xs font-semibold backdrop-blur-sm sm:top-4 sm:left-4">

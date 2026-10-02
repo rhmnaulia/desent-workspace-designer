@@ -9,9 +9,10 @@ import { StarterSetups } from "./starter-setups";
 import { Steps } from "./steps";
 
 /**
- * The interactive part of the home page. Layout by breakpoint:
- *  - phone:   preview (pinned) → picker → slip, with a bottom bar
- *  - lg:      preview + picker on the left, slip on the right
+ * The interactive part of the home page. The preview always stays in view
+ * while you pick, because watching it change is the point. By breakpoint:
+ *  - phone:   preview pinned on top → picker → slip, with a bottom bar
+ *  - md–lg:   preview pinned on the left | picker, then slip, with a bottom bar
  *  - xl:      picker | preview | slip, all in view at once
  */
 export function Designer() {
@@ -26,16 +27,16 @@ function DesignerLayout() {
   const { message } = useSetup();
   return (
     <>
-      <div className="grid grid-cols-[minmax(0,1fr)] gap-6 lg:grid-cols-[minmax(0,1fr)_320px] lg:[grid-template-areas:'stage_slip'_'picker_slip'] xl:grid-cols-[minmax(320px,380px)_minmax(0,1fr)_320px] xl:[grid-template-areas:'picker_stage_slip']">
-        {/* Pinned on phones so you can watch the setup change while you pick. */}
-        <div className="sticky top-0 z-20 -mx-4 bg-paper px-4 pt-2 pb-3 sm:static sm:mx-0 sm:p-0 lg:[grid-area:stage] xl:sticky xl:top-6 xl:self-start">
+      <div className="grid grid-cols-[minmax(0,1fr)] gap-6 md:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] md:grid-rows-[auto_1fr] md:[grid-template-areas:'stage_picker'_'stage_slip'] xl:grid-cols-[minmax(320px,380px)_minmax(0,1fr)_320px] xl:grid-rows-none xl:[grid-template-areas:'picker_stage_slip']">
+        {/* Small landscape-ish screens (sm) scroll it normally: pinned, it would fill the screen. */}
+        <div className="sticky top-0 z-20 -mx-4 bg-paper px-4 pt-2 pb-3 sm:static sm:mx-0 sm:p-0 md:sticky md:top-4 md:self-start md:[grid-area:stage] xl:top-6">
           <StagePanel />
         </div>
-        <div className="grid min-w-0 content-start gap-5 lg:[grid-area:picker]">
+        <div className="grid min-w-0 content-start gap-5 md:[grid-area:picker]">
           <StarterSetups />
           <Steps />
         </div>
-        <div className="lg:sticky lg:top-6 lg:self-start lg:[grid-area:slip]">
+        <div className="md:[grid-area:slip] xl:sticky xl:top-6 xl:self-start">
           <RentalSlip />
         </div>
       </div>

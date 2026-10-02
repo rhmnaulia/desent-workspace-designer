@@ -116,7 +116,7 @@ export function Steps() {
           ) : (
             <Link
               href={`/checkout?${SETUP_PARAM}=${encodeSetup(setup)}`}
-              className={`${buttonStyles.primary} lg:hidden`}
+              className={`${buttonStyles.primary} xl:hidden`}
             >
               Review and rent
               <ArrowRightIcon width={18} height={18} />

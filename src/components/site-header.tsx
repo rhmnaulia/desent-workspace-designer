@@ -26,7 +26,7 @@ export function SiteHeader() {
 
 export function SiteFooter() {
   return (
-    <footer className="mx-auto max-w-[1440px] px-4 pt-12 pb-32 text-sm text-muted sm:px-6 lg:pb-10">
+    <footer className="mx-auto max-w-[1440px] px-4 pt-12 pb-32 text-sm text-muted sm:px-6 xl:pb-10">
       <p>
         Prices are sample weekly rates in USD for this demo. Built for the{" "}
         <a className="underline underline-offset-2 hover:text-ink" href="https://monis.rent">
