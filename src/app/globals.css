@@ -1,0 +1,262 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens. Two themes, warm in both: "rice paper" by day and
+ * "Canggu night" when the OS asks for dark. Every text/background pair is
+ * WCAG AA or better (body text is AAA).
+ */
+:root {
+  --paper: #f5f0e6;
+  --surface: #fcfaf5;
+  --ink: #24211c;
+  --muted: #5f574b;
+  --line: #d9cebb;
+  --leaf: #2f5d46;
+  --on-leaf: #ffffff;
+  --clay: #a8481f;
+  --focus: #a8481f;
+  --shadow: 36 33 28;
+
+  /* Stage illustration */
+  --wall: #ede3d1;
+  --wall-shade: #e3d6bf;
+  --floor: #d6bd95;
+  --floor-line: #c7ab80;
+  --sky-top: #f6d6a5;
+  --sky-bottom: #fbe9c9;
+  --sun: #fff6e0;
+  --palm: #a7b49a;
+  --frame: #fcfaf5;
+  --rug: #c9b08a;
+  --decor: #b48a55;
+  --decor-fill: #e5d0ad;
+  --shade: rgb(60 45 25 / 0.14);
+  --glow: rgb(255 199 120 / 0.42);
+  --screen: #1f2a2e;
+  --screen-glow: rgb(156 214 199 / 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #1a1916;
+    --surface: #24221e;
+    --ink: #ede6d8;
+    --muted: #b0a797;
+    --line: #3d3931;
+    --leaf: #93c9a8;
+    --on-leaf: #0f2219;
+    --clay: #e59266;
+    --focus: #e59266;
+    --shadow: 0 0 0;
+
+    --wall: #2b2824;
+    --wall-shade: #26231f;
+    --floor: #3b3229;
+    --floor-line: #332b23;
+    --sky-top: #1b2540;
+    --sky-bottom: #36405f;
+    --sun: #e9e4d3;
+    --palm: #151b26;
+    --frame: #3a3630;
+    --rug: #4a4034;
+    --decor: #7a6142;
+    --decor-fill: #3a332b;
+    --shade: rgb(0 0 0 / 0.3);
+    --glow: rgb(255 190 110 / 0.3);
+    --screen: #10181b;
+    --screen-glow: rgb(156 214 199 / 0.16);
+  }
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-leaf: var(--leaf);
+  --color-on-leaf: var(--on-leaf);
+  --color-clay: var(--clay);
+  --color-focus: var(--focus);
+  --font-sans: var(--font-atkinson), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-bricolage), var(--font-atkinson), ui-sans-serif, sans-serif;
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    color-scheme: light dark;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Phones pin the preview to the top. Keep focused and scrolled-to elements
+     clear of it (WCAG 2.4.11, focus not obscured). Mirrors the stage's 5:3 box. */
+  @media (width < 40rem) {
+    html {
+      scroll-padding-top: calc((100vw - 2rem) * 0.6 + 1.5rem);
+    }
+  }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-atkinson), ui-sans-serif, system-ui, sans-serif;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--leaf) 25%, transparent);
+  }
+}
+
+/* Prices and counts: the display face has calmer figures than the body face's slashed zero. */
+@utility tabular {
+  font-family: var(--font-bricolage), ui-sans-serif, sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+
+/* The rental slip's torn-paper top edge. Pure CSS, no image request. */
+@utility perforated {
+  --tooth: 10px;
+  mask:
+    radial-gradient(circle at 50% 0, transparent 4px, #000 4.5px) top / var(--tooth) 8px repeat-x,
+    linear-gradient(#000, #000) 0 8px / 100% calc(100% - 8px) no-repeat;
+}
+
+/*
+ * Motion. Everything animates transform/opacity only, so it stays on the
+ * compositor. `--ease-spring` is a spring with a ~5% overshoot, sampled with
+ * linear(): physical-feeling without a JS animation library.
+ */
+:root {
+  --ease-spring: linear(
+    0,
+    0.13 4%,
+    0.45 10%,
+    0.79 18%,
+    0.98 26%,
+    1.04 33%,
+    1.05 38%,
+    1.03 48%,
+    1.005 62%,
+    1
+  );
+  --ease-motor: cubic-bezier(0.45, 0, 0.3, 1);
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes drop-in {
+  from {
+    opacity: 0;
+    transform: translateY(-24px);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+/* Items landing on the stage */
+.drop-in {
+  animation: drop-in 480ms var(--ease-spring) both;
+}
+
+/* Items sliding to a new spot when their neighbours change */
+.glide {
+  transition: transform 480ms var(--ease-spring);
+}
+
+/* Standing desks move at motor speed, not spring speed */
+.motor {
+  transition: transform 900ms var(--ease-motor);
+}
+
+.fade-in {
+  animation: fade-in 260ms ease-out both;
+}
+
+/* The lamp "switches on" just after it lands */
+.switch-on {
+  animation: fade-in 400ms ease-out 250ms both;
+}
+
+.slide-in {
+  animation: slide-in 220ms var(--ease-soft) both;
+}
+
+.rise-in {
+  animation: rise-in 200ms var(--ease-soft) both;
+}
+
+/* Ambient motion. Disabled entirely when the user asks for less motion. */
+@keyframes sway {
+  0%,
+  100% {
+    transform: rotate(-1.5deg);
+  }
+  50% {
+    transform: rotate(1.5deg);
+  }
+}
+
+.sway {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: sway 6s ease-in-out infinite;
+}
+
+@keyframes steam {
+  0% {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  40% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+
+.steam path {
+  animation: steam 2.4s ease-out infinite;
+}
+
+.steam path:nth-child(2) {
+  animation-delay: 1.2s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
