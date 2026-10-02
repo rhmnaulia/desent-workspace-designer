@@ -50,3 +50,23 @@ export const LinkIcon = (props: SVGProps<SVGSVGElement>) => (
     <path d="M8.5 11.5a3 3 0 0 0 4.2 0l2.6-2.6a3 3 0 0 0-4.2-4.2l-.9.9M11.5 8.5a3 3 0 0 0-4.2 0l-2.6 2.6a3 3 0 0 0 4.2 4.2l.9-.9" />
   </svg>
 );
+
+export const SunIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg {...base} {...props}>
+    <circle cx="10" cy="10" r="3.2" />
+    <path d="M10 2.5v1.8M10 15.7v1.8M2.5 10h1.8M15.7 10h1.8M4.7 4.7l1.3 1.3M14 14l1.3 1.3M4.7 15.3L6 14M14 6l1.3-1.3" />
+  </svg>
+);
+
+export const MoonIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg {...base} {...props}>
+    <path d="M16 12.2A6.5 6.5 0 0 1 7.8 4a6.5 6.5 0 1 0 8.2 8.2z" />
+  </svg>
+);
+
+export const SystemIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg {...base} {...props}>
+    <rect x="3" y="4" width="14" height="9.5" rx="1.5" />
+    <path d="M7.5 16.5h5M10 13.5v3" />
+  </svg>
+);

@@ -2,10 +2,14 @@
 
 /*
  * Design tokens. Two themes, warm in both: "rice paper" by day and
- * "Canggu night" when the OS asks for dark. Every text/background pair is
- * WCAG AA or better (body text is AAA).
+ * "Canggu night" after dark. Every text/background pair is WCAG AA or better
+ * (body text is AAA).
+ *
+ * The active theme is the `data-theme` attribute on <html>, set before first
+ * paint by the script in `src/theme/theme.ts` (from the saved choice, or the OS).
  */
 :root {
+  color-scheme: light;
   --paper: #f5f0e6;
   --surface: #fcfaf5;
   --ink: #24211c;
@@ -36,36 +40,35 @@
   --screen-glow: rgb(156 214 199 / 0.1);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --paper: #1a1916;
-    --surface: #24221e;
-    --ink: #ede6d8;
-    --muted: #b0a797;
-    --line: #3d3931;
-    --leaf: #93c9a8;
-    --on-leaf: #0f2219;
-    --clay: #e59266;
-    --focus: #e59266;
-    --shadow: 0 0 0;
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #1a1916;
+  --surface: #24221e;
+  --ink: #ede6d8;
+  --muted: #b0a797;
+  --line: #3d3931;
+  --leaf: #93c9a8;
+  --on-leaf: #0f2219;
+  --clay: #e59266;
+  --focus: #e59266;
+  --shadow: 0 0 0;
 
-    --wall: #2b2824;
-    --wall-shade: #26231f;
-    --floor: #3b3229;
-    --floor-line: #332b23;
-    --sky-top: #1b2540;
-    --sky-bottom: #36405f;
-    --sun: #e9e4d3;
-    --palm: #151b26;
-    --frame: #3a3630;
-    --rug: #4a4034;
-    --decor: #7a6142;
-    --decor-fill: #3a332b;
-    --shade: rgb(0 0 0 / 0.3);
-    --glow: rgb(255 190 110 / 0.3);
-    --screen: #10181b;
-    --screen-glow: rgb(156 214 199 / 0.16);
-  }
+  --wall: #2b2824;
+  --wall-shade: #26231f;
+  --floor: #3b3229;
+  --floor-line: #332b23;
+  --sky-top: #1b2540;
+  --sky-bottom: #36405f;
+  --sun: #e9e4d3;
+  --palm: #151b26;
+  --frame: #3a3630;
+  --rug: #4a4034;
+  --decor: #7a6142;
+  --decor-fill: #3a332b;
+  --shade: rgb(0 0 0 / 0.3);
+  --glow: rgb(255 190 110 / 0.3);
+  --screen: #10181b;
+  --screen-glow: rgb(156 214 199 / 0.16);
 }
 
 @theme inline {
@@ -85,7 +88,6 @@
 
 @layer base {
   html {
-    color-scheme: light dark;
     -webkit-tap-highlight-color: transparent;
   }
 
@@ -250,7 +252,19 @@
   animation-delay: 1.2s;
 }
 
+/* Switching themes cross-fades (View Transitions API, where supported). */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 220ms;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+
   *,
   *::before,
   *::after {

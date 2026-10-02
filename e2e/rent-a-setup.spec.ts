@@ -80,3 +80,21 @@ test("reflows to 320px without sideways scrolling (WCAG 1.4.10)", async ({ page 
     expect(overflow, path).toBeLessThanOrEqual(0);
   }
 });
+
+test("theme choice overrides the OS and survives a reload", async ({ page }) => {
+  await page.emulateMedia({ colorScheme: "light" });
+  await page.goto("/");
+  const html = page.locator("html");
+  await expect(html).toHaveAttribute("data-theme", "light");
+
+  await page.getByRole("radio", { name: "Dark" }).check();
+  await expect(html).toHaveAttribute("data-theme", "dark");
+
+  await page.reload();
+  // Set by the head script, before React: no flash of the light theme.
+  await expect(html).toHaveAttribute("data-theme", "dark");
+  await expect(page.getByRole("radio", { name: "Dark" })).toBeChecked();
+
+  await page.getByRole("radio", { name: "Match system" }).check();
+  await expect(html).toHaveAttribute("data-theme", "light");
+});

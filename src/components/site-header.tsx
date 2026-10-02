@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ThemeToggle } from "./theme-toggle";
 
 export function SiteHeader() {
   return (
@@ -13,9 +14,12 @@ export function SiteHeader() {
         </span>
         <span className="hidden text-sm text-muted sm:inline">Workspace designer</span>
       </Link>
-      <p className="text-right text-sm text-muted">
-        <span className="hidden md:inline">Delivered and set up </span>from Canggu to Uluwatu
-      </p>
+      <div className="flex items-center gap-4">
+        <p className="hidden text-right text-sm text-muted sm:block">
+          <span className="hidden md:inline">Delivered and set up </span>from Canggu to Uluwatu
+        </p>
+        <ThemeToggle />
+      </div>
     </header>
   );
 }

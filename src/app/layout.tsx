@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Atkinson_Hyperlegible, Bricolage_Grotesque } from "next/font/google";
 import { site } from "@/site";
+import { themeScript } from "@/theme/theme";
 import "./globals.css";
 
 // Atkinson Hyperlegible was designed by the Braille Institute for low-vision
@@ -50,7 +51,16 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${body.variable} ${display.variable}`}>
+    // suppressHydrationWarning: the head script sets data-theme before React hydrates.
+    <html
+      lang="en"
+      data-theme="light"
+      className={`${body.variable} ${display.variable}`}
+      suppressHydrationWarning
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body className="min-h-dvh">
         <a
           href="#main"
