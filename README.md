@@ -28,6 +28,7 @@ Small things that came out of thinking as the user:
 | Styling | Tailwind CSS v4 with design tokens in `globals.css` | Required. Two themes (light "rice paper", dark "Canggu night") from the same tokens. |
 | Illustrations | Hand-built SVG components | One consistent style, no image files to load, recolour for dark mode, and every part can move on its own. Product thumbnails reuse the same parts, so what you tap is what lands in the room. |
 | State | `useState` + a pure reducer, shared through context | The state is small. Pure functions (`reducer`, `rules`, `pricing`, `codec`) hold the logic and are unit tested without React. |
+| Fonts | Atkinson Hyperlegible for body text, plus a self-hosted, trimmed Bricolage Grotesque for headings | Both use `display: optional` with metric-matched fallbacks, so there is no layout shift and no late repaint. See `src/app/fonts/README.md`. |
 | Motion | CSS only: transitions plus a spring curve written with `linear()` | I started with Motion and swapped it out: everything here animates `transform`/`opacity`, which CSS does on the compositor, and dropping the library saved ~40 kB of JavaScript. |
 | Testing | Vitest + Testing Library, Playwright + axe | Logic and interaction tests; end-to-end flows on desktop and phone; zero axe violations in both themes. |
 
